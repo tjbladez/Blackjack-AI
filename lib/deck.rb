@@ -14,7 +14,7 @@ class Deck
     :jack  => 10,
     :queen => 10,
     :king  => 10,
-    :ace   => [10, 1]}
+    :ace   => [11, 1]}
 
   def initialize
     @cards = []

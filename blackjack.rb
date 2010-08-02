@@ -6,3 +6,4 @@ def require_local_lib(pattern)
 end
 
 require_local_lib('lib/*.rb')
+require_local_lib('extensions/*.rb')
