@@ -24,4 +24,9 @@ class Deck
       end
     end
   end
+
+  def deal_card
+    random = rand(@cards.size)
+    @cards.delete_at(random)
+  end
 end

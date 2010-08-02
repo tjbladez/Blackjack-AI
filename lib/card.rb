@@ -5,4 +5,7 @@ class Card
     @suite, @name, @value = suite, name, value
   end
 
+  def ace?
+    @name == :ace
+  end
 end
