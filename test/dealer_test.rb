@@ -14,4 +14,33 @@ context "A dealer" do
     end
     asserts("shows the second card"){ topic.showing }.equals{@showing_card}
   end
+
+  context "stands on soft 17 if required" do
+    setup do
+      topic.cards << Card.new(:hearts, :ace, [11, 1])
+      topic.cards << Card.new(:hearts, :six, 6)
+      topic
+    end
+    asserts(:decision).equals(:s)
+  end
+
+  context "stands for values 17 and up" do
+    setup do
+      topic.cards << Card.new(:hearts, :ten, 10)
+      topic.cards << Card.new(:hearts, :six, 6)
+      topic.cards << Card.new(:hearts, :two, 2)
+      topic
+    end
+    asserts(:decision).equals(:s)
+  end
+
+  context "hits for values less then 17" do
+    setup do
+      topic.cards << Card.new(:hearts, :six, 6)
+      topic.cards << Card.new(:hearts, :two, 2)
+      topic
+    end
+    asserts(:decision).equals(:h)
+  end
+
 end
