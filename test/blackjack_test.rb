@@ -2,9 +2,9 @@ require File.join(File.dirname(__FILE__), '..', 'blackjack')
 
 context "A Card" do
   setup { Card.new(:hearts, :ten, 10) }
-  asserts('has right suite'){ topic.suite}.equals(:hearts)
-  asserts('has right name'){ topic.name}.equals(:ten)
-  asserts('has right value'){ topic.value}.equals(10)
+  asserts(:suite).equals(:hearts)
+  asserts(:name).equals(:ten)
+  asserts(:value).equals(10)
 end
 
 context "A deck" do
@@ -34,7 +34,7 @@ context "A player" do
       topic.cards << Card.new(:spades, :three, 3)
       topic
     end
-    asserts('possible hand values calculated correctly'){topic.possible_hand_values}.equals(13)
+    asserts(:possible_hand_values).equals([13])
   end
 
   context "with one ace" do
@@ -43,10 +43,8 @@ context "A player" do
       topic.cards << Card.new(:spades, :three, 3)
       topic
     end
-    asserts('has_an_ace? is true'){topic.has_an_ace?}
-    asserts('possible hand values calculated correctly') do
-      topic.possible_hand_values
-    end.equals([14, 4].sort)
+    asserts(:has_an_ace?)
+    asserts(:possible_hand_values).equals([14, 4].sort)
   end
 
   context "with 2 cards of the same denomination" do
@@ -55,7 +53,7 @@ context "A player" do
       topic.cards << Card.new(:hearts, :ten, 10)
       topic
     end
-    asserts('has_a_pair? is true'){topic.has_a_pair?}
+    asserts(:has_a_pair?)
   end
 
   context "with a bigger cards set" do
@@ -66,8 +64,26 @@ context "A player" do
       topic.cards << Card.new(:hearts, :four, 4)
       topic
     end
-    asserts('possible hand values calculated correctly') do
-      topic.possible_hand_values
-    end.equals([18, 8, 28].sort)
+    asserts(:possible_hand_values).equals([18, 8, 28].sort)
+  end
+
+  context "when dealt to 21 points" do
+    setup do
+      topic.cards << Card.new(:hearts, :ace, [11, 1])
+      topic.cards << Card.new(:hearts, :ten, 10)
+      topic
+    end
+    asserts(:has_blackjack?)
+  end
+
+  context "when dealt more than 21 points" do
+    setup do
+      topic.cards << Card.new(:hearts, :nine, 9)
+      topic.cards << Card.new(:hearts, :ten, 10)
+      topic.cards << Card.new(:hearts, :ace, [11, 1])
+      topic.cards << Card.new(:hearts, :three, 3)
+      topic
+    end
+    asserts(:bust?)
   end
 end
