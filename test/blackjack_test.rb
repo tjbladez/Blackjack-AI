@@ -22,3 +22,9 @@ context "A deck" do
     end
   end
 end
+
+context "A table" do
+  setup { Table.new }
+
+  asserts(:dealer).kind_of(Dealer)
+end

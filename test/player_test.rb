@@ -63,4 +63,12 @@ context "A player" do
     end
     asserts(:bust?)
   end
+
+  context "when sitting down at the table" do
+    setup do
+      @table = Table.new
+      topic.sit_down(@table)
+    end
+    asserts_topic.equals{@table}
+  end
 end

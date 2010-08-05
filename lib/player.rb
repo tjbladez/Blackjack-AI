@@ -1,5 +1,5 @@
 class Player
-  attr_accessor :cards
+  attr_accessor :cards, :table
   def initialize
     @cards = []
   end
@@ -29,4 +29,9 @@ class Player
   def bust?
     possible_hand_values.all? {|v| v > 21}
   end
+
+  def sit_down(table)
+    @table = table
+  end
+
 end
