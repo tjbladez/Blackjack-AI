@@ -68,7 +68,79 @@ context "A player" do
     setup do
       @table = Table.new
       topic.sit_down(@table)
+      topic
     end
-    asserts_topic.equals{@table}
+    asserts(:table).equals{@table}
+
+    context "while making a decision" do
+      setup do
+        # @todo once the Round is implemented - refactor to use it instead of
+        # adding cards manually
+        topic.table.dealer.cards << Card.new(:hearts, :four, 4)
+        topic.table.dealer.cards << Card.new(:hearts, :seven, 7)
+        topic
+      end
+      context "and having a soft values" do
+        setup do
+          topic.cards << Card.new(:spades, :ace, [11, 1])
+          topic.cards << Card.new(:spades, :seven, 7)
+          topic
+        end
+        should "use basic strategy for soft values" do
+          topic.decision
+        end.equals(:s)
+      end
+
+      context "and having a hard values" do
+        setup do
+          topic.cards << Card.new(:spades, :nine, 9)
+          topic.cards << Card.new(:spades, :seven, 7)
+          topic
+        end
+
+        should "use basic strategy for soft values" do
+          topic.decision
+        end.equals(:h)
+      end
+
+      context "and having a pair" do
+        setup do
+          topic.cards << Card.new(:clubs, :seven, 7)
+          topic.cards << Card.new(:spades, :seven, 7)
+          topic
+        end
+
+        should "use basic strategy for pairs" do
+          topic.decision
+        end.equals(:sp)
+      end
+
+      context "and busted" do
+        setup do
+          topic.cards << Card.new(:spades, :nine, 9)
+          topic.cards << Card.new(:spades, :five, 5)
+          topic.cards << Card.new(:spades, :ten, 10)
+          topic
+        end
+        should "notify that lost" do
+          topic.decision
+        end.equals(:lost)
+      end
+
+      context "and have blackjack" do
+        setup do
+          topic.cards << Card.new(:spades, :ace, [11, 1])
+          topic.cards << Card.new(:spades, :ten, 10)
+          topic
+        end
+        should "notify that won" do
+          topic.decision
+        end.equals(:won)
+      end
+    end
+
+
   end
+
+
 end

@@ -1,4 +1,6 @@
 class Player
+  include BasicStrategy
+
   attr_accessor :cards, :table
   def initialize
     @cards = []
@@ -32,6 +34,24 @@ class Player
 
   def sit_down(table)
     @table = table
+  end
+
+  def decision
+    dealer_showing = table.dealer.showing.value #fixme once Round will be available
+    return :lost if bust?
+    return :won if has_blackjack?
+
+    case
+    when has_an_ace?
+      key = possible_hand_values.min - 1
+      BasicStrategy.soft[key][dealer_showing]
+    when has_a_pair?
+      key = cards[0].value
+      BasicStrategy.pair[cards[0].value][dealer_showing]
+    else
+      key = possible_hand_values.max
+      BasicStrategy.hard[key][dealer_showing]
+    end
   end
 
 end

@@ -1,4 +1,4 @@
-class BasicStrategy
+module BasicStrategy
   def self.soft
     { 2 => { 2 => :h, 3 => :h, 4 => :h, 5 => :dh, 6 => :dh, 7 => :h, 8 => :h, 9 => :h, 10 => :h, :a => :h},
       3 => { 2 => :h, 3 => :h, 4 => :h, 5 => :dh, 6 => :dh, 7 => :h, 8 => :h, 9 => :h, 10 => :h, :a => :h},
