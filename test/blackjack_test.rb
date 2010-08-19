@@ -9,7 +9,7 @@ end
 
 context "A deck" do
   setup { Deck.new }
-  asserts('has 52 cards'){ topic.cards.size}.equals(52)
+  asserts('has 52 cards'){ topic.playable_cards.size}.equals(52)
 
   context "when card is dealt" do
     setup do
@@ -18,8 +18,17 @@ context "A deck" do
     end
 
     asserts('random card is removed from deck') do
-      !topic.cards.include?(@card)
+      !topic.playable_cards.include?(@card)
     end
+  end
+
+  context "when shuffled" do
+    setup do
+      topic.deal_card
+      topic.shuffle
+      topic
+    end
+    asserts('back to having 52 cards') { topic.playable_cards.size}.equals(52)
   end
 end
 

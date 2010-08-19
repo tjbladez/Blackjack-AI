@@ -1,5 +1,5 @@
 class Deck
-  attr_accessor :cards
+  attr_accessor :playable_cards
   SUITES = [:hearts, :diamonds, :spades, :clubs]
   NAME_VALUES = {
     :two   => 2,
@@ -17,16 +17,20 @@ class Deck
     :ace   => [11, 1]}
 
   def initialize
-    @cards = []
-    SUITES.each do |suite|
-      NAME_VALUES.each do |name, value|
-        @cards << Card.new(suite, name, value)
-      end
-    end
+    shuffle
   end
 
   def deal_card
-    random = rand(@cards.size)
-    @cards.delete_at(random)
+    random = rand(@playable_cards.size)
+    @playable_cards.delete_at(random)
+  end
+
+  def shuffle
+    @playable_cards = []
+    SUITES.each do |suite|
+      NAME_VALUES.each do |name, value|
+        @playable_cards << Card.new(suite, name, value)
+      end
+    end
   end
 end
