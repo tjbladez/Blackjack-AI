@@ -3,5 +3,6 @@ class Table
 
   def initialize
     @dealer = Dealer.new
+    @players = []
   end
 end

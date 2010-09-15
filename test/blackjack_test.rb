@@ -36,4 +36,6 @@ context "A table" do
   setup { Table.new }
 
   asserts(:dealer).kind_of(Dealer)
+  asserts('has 0 players initially'){ topic.players.size}.equals(0)
+
 end

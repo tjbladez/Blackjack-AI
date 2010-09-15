@@ -13,6 +13,7 @@ context "A dealer" do
       topic
     end
     asserts("shows the second card"){ topic.showing }.equals{@showing_card}
+    asserts(:showing_card_value).equals{@showing_card.value}
   end
 
   context "stands on soft 17 if required" do
@@ -43,4 +44,22 @@ context "A dealer" do
     asserts(:decision).equals(:h)
   end
 
+  context "wins when dealt to blackjack" do
+    setup do
+      topic.cards << Card.new(:hearts, :ace, [11, 1])
+      topic.cards << Card.new(:hearts, :ten, 10)
+      topic
+    end
+    asserts(:decision).equals(:won)
+  end
+
+  context "loses when dealt more than 21 points" do
+    setup do
+      topic.cards << Card.new(:hearts, :six, 6)
+      topic.cards << Card.new(:hearts, :ten, 10)
+      topic.cards << Card.new(:hearts, :seven, 7)
+      topic
+    end
+    asserts(:decision).equals(:lost)
+  end
 end

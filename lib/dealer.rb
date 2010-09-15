@@ -1,5 +1,5 @@
 class Dealer < Player
-  attr_accessor :stands_on_soft_17, :blackjack_payout
+  attr_reader :stands_on_soft_17, :blackjack_payout
 
   def initialize
     @stands_on_soft_17 = true
@@ -11,7 +11,14 @@ class Dealer < Player
     cards[1]
   end
 
+  def showing_card_value
+    cards[1].value
+  end
+
   def decision
+    return :lost if bust?
+    return :won if has_blackjack?
+
     return :s if has_soft_17? && @stands_on_soft_17
     if possible_hand_values.all? {|v| v >= 17 }
       :s
