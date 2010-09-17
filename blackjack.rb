@@ -6,6 +6,7 @@ def require_local_lib(pattern)
 end
 
 require 'lib/basic_strategy.rb'
+require 'lib/hand.rb'
 require 'lib/player.rb'
 require_local_lib('lib/*.rb')
 require_local_lib('extensions/*.rb')
