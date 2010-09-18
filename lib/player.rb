@@ -7,6 +7,7 @@ class Player
 
   def sit_down(table)
     @table = table
+    @table.add_player(self)
   end
 
   def decision

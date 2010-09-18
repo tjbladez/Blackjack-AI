@@ -20,15 +20,14 @@ context "A deck" do
     asserts('random card is removed from deck') do
       !topic.playable_cards.include?(@card)
     end
-  end
 
-  context "when shuffled" do
-    setup do
-      topic.deal_card
-      topic.shuffle
-      topic
+    context "and then shuffled" do
+      setup do
+        topic.shuffle
+        topic
+      end
+      asserts('back to having 52 cards') { topic.playable_cards.size}.equals(52)
     end
-    asserts('back to having 52 cards') { topic.playable_cards.size}.equals(52)
   end
 end
 
@@ -38,4 +37,12 @@ context "A table" do
   asserts(:dealer).kind_of(Dealer)
   asserts('has 0 players initially'){ topic.players.size}.equals(0)
 
+  context "when adding a player" do
+    setup do
+      player = Player.new
+      topic.add_player(player)
+      topic
+    end
+    should("add it to a players list"){topic.players.size}.equals(1)
+  end
 end

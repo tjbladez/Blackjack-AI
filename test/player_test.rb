@@ -12,25 +12,31 @@ context "A player" do
       topic
     end
     asserts(:table).equals{@table}
+
+    should("add itself to that table player list") do
+      topic.table.players.first
+    end.equals{topic}
+
     context "when making a decision" do
-      setup do
+      setup do  # refactor the moment director can deal hands
+        deck = Deck.new
         hand1 = Hand.new
-        hand1.cards << Card.new(:spades, :nine, 9)
-        hand1.cards << Card.new(:spades, :seven, 7)
+        hand1.cards << deck.deal_card
+        hand1.cards << deck.deal_card
         topic.hands << hand1
 
         hand2 = Hand.new
-        hand2.cards << Card.new(:hearts, :seven, 7)
-        hand2.cards << Card.new(:hearts, :ten, 10)
+        hand2.cards << deck.deal_card
+        hand2.cards << deck.deal_card
         topic.hands << hand2
 
-        @table.dealer.hand.cards << Card.new(:hearts, :nine, 9)
-        @table.dealer.hand.cards << Card.new(:diamonds, :six, 6)
+        @table.dealer.hand.cards << deck.deal_card
+        @table.dealer.hand.cards << deck.deal_card
         topic
       end
-      should "do it for each hand" do
+      asserts("do it for each hand") do
         topic.decision.size
-      end.equals(2)
+      end.equals{topic.hands.size}
     end
   end
 end

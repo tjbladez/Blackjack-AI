@@ -5,4 +5,8 @@ class Table
     @dealer = Dealer.new
     @players = []
   end
+
+  def add_player(player)
+    @players << player
+  end
 end
