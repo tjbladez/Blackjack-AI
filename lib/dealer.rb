@@ -2,9 +2,8 @@ class Dealer < Player
   attr_reader :blackjack_payout
 
   def initialize
-    super
     @blackjack_payout  = 1.5
-    @hands << DealerHand.new
+    super
   end
 
   def showing

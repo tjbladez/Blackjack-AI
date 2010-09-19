@@ -5,6 +5,7 @@ context "A director" do
 
   asserts(:table).kind_of(Table)
   asserts(:deck).kind_of(Deck)
+  asserts(:dealer).equals{topic.table.dealer}
 
   should("starts with 0 players"){ topic.players.size}.equals(0)
 
@@ -15,4 +16,13 @@ context "A director" do
     should("be a Player class"){topic.players.first}.kind_of(Player)
   end
 
+  context "when dealing a hand" do
+    setup do
+      topic.deal_hand(topic.table.dealer)
+      topic
+    end
+    should "give 2 hards to passed object" do
+      topic.table.dealer.hands.first.cards.size
+    end.equals(2)
+  end
 end

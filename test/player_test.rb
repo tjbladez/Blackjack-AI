@@ -3,7 +3,7 @@ require File.join(File.dirname(__FILE__), '..', 'blackjack')
 context "A player" do
   setup { Player.new }
 
-  asserts('starts with 0 hands'){ topic.hands.size}.equals(0)
+  asserts("starts with 0 hands"){ topic.hands.size}.equals(0)
 
   context "when sitting down at the table" do
     setup do
@@ -30,8 +30,10 @@ context "A player" do
         hand2.cards << deck.deal_card
         topic.hands << hand2
 
-        @table.dealer.hand.cards << deck.deal_card
-        @table.dealer.hand.cards << deck.deal_card
+        hand3 = Hand.new
+        hand3.cards << deck.deal_card
+        hand3.cards << deck.deal_card
+        @table.dealer.hands << hand3
         topic
       end
       asserts("do it for each hand") do
